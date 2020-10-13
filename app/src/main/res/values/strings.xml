@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">hue</string>
+    <string name="app_name">Hue Controller</string>
+    <string name="switchThemeText">Switch Theme</string>
+    <string name="switchToDarkTheme">Switch to Dark Theme</string>
+    <string name="switchToLightTheme">Switch to Light Theme</string>
+    <string name="allLightsButton">All Lights</string>
 </resources>
