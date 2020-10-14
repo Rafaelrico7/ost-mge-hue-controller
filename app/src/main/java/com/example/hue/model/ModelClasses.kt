@@ -1,4 +1,4 @@
-package ch.ost.rj.mge.testat.huelightcontrollerapp.model
+package com.example.hue.model
 
 import com.google.gson.annotations.SerializedName
 

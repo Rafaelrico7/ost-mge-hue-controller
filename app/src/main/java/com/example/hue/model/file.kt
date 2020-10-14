@@ -1,4 +1,4 @@
-package ch.ost.rj.mge.testat.huelightcontrollerapp.model
+package com.example.hue.model
 
 import android.content.Context
 import com.google.gson.Gson
@@ -6,14 +6,21 @@ import com.google.gson.reflect.TypeToken
 import java.io.File
 
 class File{
-    val file = File("./Data/", "hueFileStorage")
+
     private val gson = Gson()
     init {
 
     }
-    fun loadFileContent (lightList: MutableList<Light> ,ctx: Context){
+    fun loadFileContent (lightList: MutableList<Light>, ctx: Context){
         val lightListType = object : TypeToken<MutableList<Light>>() {}.type
-        lightList.addAll(0,gson.fromJson(ctx.openFileInput("hueFileStorage").bufferedReader(), lightListType))
+        val file = File( "hueFileStorage")
+        if (file.exists()) {
+            val lights: MutableList<Light> =
+                gson.fromJson(ctx.openFileInput("hueFileStorage").bufferedReader(), lightListType)
+            if (lights.size > 0) {
+                lightList.addAll(0, lights)
+            }
+        }
 
     }
 

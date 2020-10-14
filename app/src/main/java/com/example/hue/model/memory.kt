@@ -1,8 +1,8 @@
-package ch.ost.rj.mge.testat.huelightcontrollerapp.model
+package com.example.hue.model
 
 import android.content.Context
 
-class memory (ctx: Context){
+class Memory (ctx: Context){
     private val lightList: MutableList<Light> = mutableListOf(Light())
     private val file = File()
     init {
