@@ -1,8 +1,7 @@
 package com.example.hue
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hue.model.Light
 import com.example.hue.model.Memory
