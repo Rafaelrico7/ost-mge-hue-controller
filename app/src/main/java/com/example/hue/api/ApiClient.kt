@@ -16,18 +16,22 @@ import java.io.UnsupportedEncodingException
 
 class ApiClient {
 
-    fun sendRequest(req: String, ipAddr: String, jsonBody: JSONObject, ctx: Context, user: String, callback: (String)->String){
+    fun sendRequest(req: String, ipAddr: String, jsonBody: JSONObject, ctx: Context, user: String, callback: ((String) -> Unit)?){
 
         try {
             val requestQueue = Volley.newRequestQueue(ctx)
             val url = "http://$ipAddr/api$user$req"
+            Log.i("SCUP", url)
             val requestBody = jsonBody.toString()
+            Log.i("SCUP", requestBody)
             val stringRequest: StringRequest =
                 object : StringRequest(Method.POST, url,
                     Response.Listener<String?> { response ->
                         if (response != null) {
-                            Log.i("VOLLEY", response)
-                            callback(response)
+                            Log.i("SCUP", response)
+                            if (callback != null) {
+                                callback(response)
+                            }
                         }
                     },
                     Response.ErrorListener { error -> Log.e("VOLLEY", error.toString()) }) {
@@ -52,10 +56,10 @@ class ApiClient {
 
                     override fun parseNetworkResponse(response: NetworkResponse): Response<String> {
                         var responseString = ""
-                        if (response != null) {
-                            responseString = response.statusCode.toString()
-                            // can get more details such as response.headers
-                        }
+
+                        responseString = response.statusCode.toString()
+                        // can get more details such as response.headers
+
                         return Response.success(
                             responseString,
                             HttpHeaderParser.parseCacheHeaders(response)

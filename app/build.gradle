@@ -38,5 +38,6 @@ dependencies {
     implementation "com.github.skydoves:colorpickerpreference:2.0.4"
     implementation "com.android.volley:volley:1.1.1"
     implementation "com.google.code.gson:gson:2.8.6"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.0-M1"
 
 }

@@ -15,6 +15,10 @@ data class Light(
     val name: String = ""
 )
 
+data class LightList(
+    val list: MutableList<Light>
+)
+
 data class Zone (
     @SerializedName("Name")
     val Name: String){

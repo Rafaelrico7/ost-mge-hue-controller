@@ -1,6 +1,7 @@
 package com.example.hue
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hue.model.Light
@@ -12,19 +13,26 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val mem = Memory(this)
-        val demoLight = Light(false, 254,256,10000, "Bettlampe")
+        val demoLight = Light(true, 254,256,10000, "Bettlampe")
+        val demoLight2 = Light(false, 200,200,100, "Lightstrip")
         mem.addLight(demoLight)
+        mem.addLight(demoLight2)
         val viewManager = LinearLayoutManager(this)
-        val viewAdapter = LightAdapter(mem.getLights())
+        val viewAdapter = LightAdapter(mem.getLights(this))
 
         allLights.setOnClickListener {
 
             recView.apply {
-                setHasFixedSize(true)
                 layoutManager = viewManager
                 adapter = viewAdapter
 
             }
+        }
+        button2.setOnClickListener {
+
+            val user = mem.getUser(this)
+            Toast.makeText(this, user,Toast.LENGTH_SHORT
+            ).show()
         }
     }
 }
