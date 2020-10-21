@@ -63,6 +63,8 @@ class ApiClient {
                         )
                     }
                 }
+            stringRequest.retryPolicy =
+                DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
             requestQueue.add(stringRequest)
         } catch (e: JSONException) {
             e.printStackTrace()
