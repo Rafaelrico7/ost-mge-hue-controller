@@ -14,7 +14,7 @@ import java.io.UnsupportedEncodingException
 class ApiClient {
 
     fun sendRequest(req: String, ipAddr: String, jsonBody: JSONObject, ctx: Context, method: Int, user: String, callback: ((String) -> Unit)?){
-
+        Log.i("SCUP", "sendRequest")
         try {
             val requestQueue = Volley.newRequestQueue(ctx)
             val url = "http://$ipAddr/api$user$req"

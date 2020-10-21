@@ -12,7 +12,21 @@ data class Light(
     @SerializedName("hue")
     val hue: Int = 10000,
     @SerializedName("name")
-    val name: String = ""
+    val name: String = "",
+    @SerializedName("effect")
+    val effect: String = "",
+    @SerializedName("xy")
+    val xy: List<Double> = listOf(0.3171,0.3366),
+    @SerializedName("ct")
+    val ct: Int = 159,
+    @SerializedName("alert")
+    val alert: String = "none",
+    @SerializedName("colormode")
+    val colorMode: String = "xy",
+    @SerializedName("mode")
+    val mode: String = "",
+    @SerializedName("reachable")
+    val reachable: Boolean = true
 )
 
 data class LightList(
@@ -24,10 +38,5 @@ data class Zone (
     val Name: String){
     @SerializedName("lights")
     val lights: MutableList<Light>? = null
-}
-data class Room (
-    @SerializedName("Name")
-    val Name: String){
-    @SerializedName("zones")
-    val zones: MutableList<Zone>? = null
+    val isRoom: Boolean = false
 }

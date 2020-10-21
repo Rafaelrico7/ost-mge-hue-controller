@@ -9,10 +9,10 @@ import org.json.JSONObject
 class Memory (ctx: Context){
     private var lightList: MutableList<Light> = mutableListOf(Light())
     private var zoneList: MutableList<Zone> = mutableListOf(Zone("default"))
-    private var authUser: String = ""
+    private var authUser: String = "halloMueter"
     private val file = File()
     private val api = ApiRoute()
-    private var ipAdrr: String = "192.168.50.149"
+    private var ipAdrr: String = "192.168.0.1"
     private var gson = Gson()
     init {
         file.loadFileContent(lightList, ctx)
@@ -39,7 +39,13 @@ class Memory (ctx: Context){
         if(lightList.isEmpty()){
             api.eval(GetLights(ipAdrr, authUser, ctx) { res: String ->
                 Log.i("SCUP", res)
-                lightList = gson.fromJson(res, LightList::class.java).list
+                val jObj = JSONObject(res)
+                var index = 1
+                while (jObj.has("$index")){
+                    val light = gson.fromJson(jObj.getJSONObject("$index").getJSONObject("state").toString(2), Light::class.java)
+                    light?.toString()?.let { lightList.add(light) }
+                    index++
+                }
             })
         }
         return lightList
@@ -60,8 +66,10 @@ class Memory (ctx: Context){
     }
 
     fun setLightStatus(index: Int, ctx: Context){
+        Log.i("SCUP", "setLightStatus")
         if(lightList.isNotEmpty() && authUser.isNotEmpty()){
-            SetLightStatus(ipAdrr, authUser, lightList[index], ctx, index)
+            Log.i("SCUP", "Aufruf setLightStatus")
+            api.eval(SetLightStatus(ipAdrr, authUser, lightList[index], ctx, index))
         }
     }
 

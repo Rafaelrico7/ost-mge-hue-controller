@@ -1,5 +1,6 @@
 package com.example.hue.api
 
+import android.util.Log
 import com.android.volley.Request
 import org.json.JSONObject
 
@@ -40,7 +41,8 @@ class ApiRoute
                 JSONObject().put("on", route.status.on)
                     .put("sat", route.status.saturation)
                     .put("bri", route.status.brightness)
-                    .put("hue", route.status.hue),
+                    .put("hue", route.status.hue)
+                    .put("name", route.status.name),
                 route.ctx,
                 Request.Method.PUT,
                 "/${route.authUser}",
