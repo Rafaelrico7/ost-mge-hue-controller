@@ -1,6 +1,8 @@
 package com.example.hue
 
 import android.os.Bundle
+import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,6 +11,8 @@ import com.example.hue.model.Memory
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    private var addButtonClicked = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -33,6 +37,50 @@ class MainActivity : AppCompatActivity() {
             val user = mem.getUser(this)
             Toast.makeText(this, user,Toast.LENGTH_SHORT
             ).show()
+        }
+
+        add_button.setOnClickListener{
+            onAddButtonClicked()
+        }
+
+        menu_button.setOnClickListener{
+            Toast.makeText(this, "Menu Button Clicked", Toast.LENGTH_SHORT).show()
+        }
+
+        light_button.setOnClickListener{
+            Toast.makeText(this, "Light Button Clicked", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun onAddButtonClicked() {
+        setVisibility(addButtonClicked)
+        setAnimation(addButtonClicked)
+        addButtonClicked = !addButtonClicked
+    }
+
+    private fun setAnimation(clicked: Boolean) {
+        if(!clicked){
+            menu_button.visibility = View.VISIBLE
+            light_button.visibility = View.VISIBLE
+        }else{
+            menu_button.visibility = View.INVISIBLE
+            light_button.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun setVisibility(clicked: Boolean) {
+        val fromBottom = AnimationUtils.loadAnimation(this, R.anim.from_bottom_anim)
+        val toBottom = AnimationUtils.loadAnimation(this, R.anim.to_bottom_anim)
+        val rotateClose = AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim)
+        val  rotateOpen = AnimationUtils.loadAnimation(this, R.anim.rotate_open_anim)
+        if(!clicked){
+            menu_button.startAnimation(fromBottom)
+            light_button.startAnimation(fromBottom)
+            add_button.startAnimation(rotateOpen)
+        }else{
+            menu_button.startAnimation(toBottom)
+            light_button.startAnimation(toBottom)
+            add_button.startAnimation(rotateClose)
         }
     }
 }
