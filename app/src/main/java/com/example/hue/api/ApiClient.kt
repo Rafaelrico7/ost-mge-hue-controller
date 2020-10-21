@@ -17,7 +17,7 @@ class ApiClient {
         Log.i("SCUP", "sendRequest")
         try {
             val requestQueue = Volley.newRequestQueue(ctx)
-            val url = "http://$ipAddr/api$user$req"
+            val url = "https://$ipAddr/api$user$req"
             Log.i("SCUP", url)
             val requestBody = jsonBody.toString()
             Log.i("SCUP", requestBody)

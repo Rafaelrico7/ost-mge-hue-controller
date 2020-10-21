@@ -6,6 +6,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.hue.api.HttpsTrustManager
 import com.example.hue.model.Light
 import com.example.hue.model.Memory
 import kotlinx.android.synthetic.main.activity_main.*
@@ -16,6 +17,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        HttpsTrustManager.allowAllSSL()
         val mem = Memory(this)
         mem.setIpAddr("192.168.50.149")
         val demoLight = Light(true, 254,256,10000, "Bettlampe")

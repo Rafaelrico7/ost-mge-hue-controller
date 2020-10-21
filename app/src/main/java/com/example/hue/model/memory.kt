@@ -9,7 +9,7 @@ import org.json.JSONObject
 class Memory (ctx: Context){
     private var lightList: MutableList<Light> = mutableListOf(Light())
     private var zoneList: MutableList<Zone> = mutableListOf(Zone("default"))
-    private var authUser: String = "halloMueter"
+    private var authUser: String = ""
     private val file = File()
     private val api = ApiRoute()
     private var ipAdrr: String = "192.168.0.1"
