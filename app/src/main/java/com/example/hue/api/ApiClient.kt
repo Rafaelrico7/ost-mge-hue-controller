@@ -2,10 +2,7 @@ package com.example.hue.api
 
 import android.content.Context
 import android.util.Log
-import com.android.volley.AuthFailureError
-import com.android.volley.NetworkResponse
-import com.android.volley.Response
-import com.android.volley.VolleyLog
+import com.android.volley.*
 import com.android.volley.toolbox.HttpHeaderParser
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -16,7 +13,7 @@ import java.io.UnsupportedEncodingException
 
 class ApiClient {
 
-    fun sendRequest(req: String, ipAddr: String, jsonBody: JSONObject, ctx: Context, user: String, callback: ((String) -> Unit)?){
+    fun sendRequest(req: String, ipAddr: String, jsonBody: JSONObject, ctx: Context, method: Int, user: String, callback: ((String) -> Unit)?){
 
         try {
             val requestQueue = Volley.newRequestQueue(ctx)
@@ -25,7 +22,7 @@ class ApiClient {
             val requestBody = jsonBody.toString()
             Log.i("SCUP", requestBody)
             val stringRequest: StringRequest =
-                object : StringRequest(Method.POST, url,
+                object : StringRequest(method, url,
                     Response.Listener<String?> { response ->
                         if (response != null) {
                             Log.i("SCUP", response)

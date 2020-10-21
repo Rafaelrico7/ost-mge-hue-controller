@@ -2,19 +2,17 @@ package com.example.hue.model
 
 import android.content.Context
 import android.util.Log
-import com.example.hue.api.ApiRoute
-import com.example.hue.api.GetLights
-import com.example.hue.api.GetUser
-import com.example.hue.api.SApiRoute
+import com.example.hue.api.*
 import com.google.gson.Gson
+import org.json.JSONObject
 
 class Memory (ctx: Context){
     private var lightList: MutableList<Light> = mutableListOf(Light())
-
+    private var zoneList: MutableList<Zone> = mutableListOf(Zone("default"))
     private var authUser: String = ""
     private val file = File()
     private val api = ApiRoute()
-    private var ipAdrr: String = "192.168.0.1"
+    private var ipAdrr: String = "192.168.50.149"
     private var gson = Gson()
     init {
         file.loadFileContent(lightList, ctx)
@@ -53,10 +51,18 @@ class Memory (ctx: Context){
             Log.i("SCUP", "before eval")
             api.eval(GetUser(ipAdrr,"Test", ctx) { res: String ->
                 Log.i("SCUP", res)
-                authUser = res
+                val jObj = JSONObject(res)
+                authUser = jObj.getJSONObject("success").getString("username")
+                Log.i("SCUP", "AuthUser gesetzt {$authUser}")
             })
         }
         return authUser
+    }
+
+    fun setLightStatus(index: Int, ctx: Context){
+        if(lightList.isNotEmpty() && authUser.isNotEmpty()){
+            SetLightStatus(ipAdrr, authUser, lightList[index], ctx, index)
+        }
     }
 
     fun getLight(index: Int, ctx: Context): Light{

@@ -1,6 +1,7 @@
 package com.example.hue.model
 
 import android.content.Context
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.File
@@ -26,5 +27,7 @@ class File{
 
     fun persistToFile (lightList: MutableList<Light>, ctx: Context){
         ctx.openFileOutput("hueFileStorage", Context.MODE_PRIVATE).bufferedWriter().write(gson.toJson(lightList))
+        Log.i("SCUP", "Persist Data")
+        Log.i("SCUP", gson.toJson(lightList))
     }
 }

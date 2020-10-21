@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         val demoLight2 = Light(false, 200,200,100, "Lightstrip")
         mem.addLight(demoLight)
         mem.addLight(demoLight2)
+        mem.persistLights(this)
         val viewManager = LinearLayoutManager(this)
         val viewAdapter = LightAdapter(mem.getLights(this))
 
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
             val user = mem.getUser(this)
             Toast.makeText(this, user,Toast.LENGTH_SHORT
             ).show()
+            mem.setLightStatus(1, this)
         }
     }
 }
