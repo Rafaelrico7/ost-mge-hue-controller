@@ -1,6 +1,5 @@
 package com.example.hue.api
 
-import android.util.Log
 import com.android.volley.Request
 import org.json.JSONObject
 
@@ -10,7 +9,7 @@ class ApiRoute
         val apiClient = ApiClient()
         when (route) {
             is GetUser -> apiClient.sendRequest(
-                "",
+                "/api",
                 route.ipAdress,
                 JSONObject().put("devicetype", route.devicetype),
                 route.ctx,

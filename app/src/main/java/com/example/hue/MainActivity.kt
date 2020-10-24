@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         HttpsTrustManager.allowAllSSL()
         val mem = Memory(this)
-        mem.setIpAddr("192.168.50.149")
+        mem.setIpAddr("jsonplaceholder.typicode.com")
         val demoLight = Light(true, 254,256,10000, "Bettlampe")
         val demoLight2 = Light(false, 200,200,100, "Lightstrip")
         mem.addLight(demoLight)

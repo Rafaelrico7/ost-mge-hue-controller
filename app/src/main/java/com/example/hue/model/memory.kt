@@ -37,12 +37,11 @@ class Memory (ctx: Context){
 
     fun getLights(ctx: Context): List<Light>{
         if(lightList.isEmpty()){
-            api.eval(GetLights(ipAdrr, authUser, ctx) { res: String ->
-                Log.i("SCUP", res)
-                val jObj = JSONObject(res)
+            api.eval(GetLights(ipAdrr, authUser, ctx) { res: JSONObject ->
+                Log.i("SCUP", res.toString())
                 var index = 1
-                while (jObj.has("$index")){
-                    val light = gson.fromJson(jObj.getJSONObject("$index").getJSONObject("state").toString(2), Light::class.java)
+                while (res.has("$index")){
+                    val light = gson.fromJson(res.getJSONObject("$index").getJSONObject("state").toString(2), Light::class.java)
                     light?.toString()?.let { lightList.add(light) }
                     index++
                 }
@@ -55,11 +54,14 @@ class Memory (ctx: Context){
         Log.i("SCUP", "getUser")
         if (authUser.isEmpty() && ipAdrr.isNotEmpty()){
             Log.i("SCUP", "before eval")
-            api.eval(GetUser(ipAdrr,"Test", ctx) { res: String ->
-                Log.i("SCUP", res)
-                val jObj = JSONObject(res)
-                authUser = jObj.getJSONObject("success").getString("username")
-                Log.i("SCUP", "AuthUser gesetzt {$authUser}")
+            api.eval(GetUser(ipAdrr,"Test", ctx) { res: JSONObject ->
+                Log.i("SCUP", res.toString())
+                if(res.has("success")) {
+                    authUser = res.getJSONObject("success").getString("username")
+                    Log.i("SCUP", "AuthUser gesetzt {$authUser}")
+                }else {
+                    Log.e("SCUP", res.toString())
+                }
             })
         }
         return authUser
