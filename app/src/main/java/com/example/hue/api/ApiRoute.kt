@@ -9,7 +9,7 @@ class ApiRoute
         val apiClient = ApiClient()
         when (route) {
             is GetUser -> apiClient.sendRequest(
-                "/api",
+                "",
                 route.ipAdress,
                 JSONObject().put("devicetype", route.devicetype),
                 route.ctx,
