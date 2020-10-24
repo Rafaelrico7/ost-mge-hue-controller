@@ -18,19 +18,26 @@ class SettingsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
+
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
                 return true
+
             }
+
         }
         return super.onOptionsItemSelected(item)
+
+
     }
+
     fun getBridgeIP(view: View){
         val text = findViewById<EditText>(R.id.editText)
         val ip = editText.text.toString()
+
 
     }
 

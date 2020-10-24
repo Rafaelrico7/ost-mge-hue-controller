@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         menu_button.setOnClickListener{
             val myIntent = Intent(this, SettingsActivity::class.java)
             startActivity(myIntent)
+            overridePendingTransition( R.anim.from_right, R.anim.to_left );
             val toBottom = AnimationUtils.loadAnimation(this, R.anim.to_bottom_anim)
             val rotateClose = AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim)
             menu_button.startAnimation(toBottom)
