@@ -27,10 +27,11 @@ class ApiClient {
         try {
             val requestQueue = Volley.newRequestQueue(ctx)
             val url = "https://$ipAddr/api$user$req"
+            val jsonArray = JSONArray()
             Log.i("SCUP", url)
             Log.i("SCUP", jsonBody.toString())
 
-            val jsonArrayRequest = JsonArrayRequest(method, url, jsonBody.getJSONArray("on"),
+            val jsonArrayRequest = JsonArrayRequest(method, url, jsonArray.put(jsonBody.toString()),
                 { _ ->
                     Log.i("SCUP", "JsonArrayRequest")
                 },
