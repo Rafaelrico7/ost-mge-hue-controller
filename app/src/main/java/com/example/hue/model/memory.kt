@@ -12,7 +12,7 @@ class Memory (ctx: Context){
     private var authUser: String = ""
     private val file = File()
     private val api = ApiRoute()
-    private var ipAdrr: String = "192.168.0.1"
+    private var ipAdrr: String = "192.168.50.149"
     private var gson = Gson()
     init {
         file.loadFileContent(lightList, ctx)
