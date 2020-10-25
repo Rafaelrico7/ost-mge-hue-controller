@@ -30,7 +30,7 @@ class ApiClient {
             Log.i("SCUP", url)
             Log.i("SCUP", jsonBody.toString())
 
-            val jsonArrayRequest = JsonArrayRequest(method, url, JSONArray(jsonBody) ,
+            val jsonArrayRequest = JsonArrayRequest(method, url, jsonBody.getJSONArray("on"),
                 { _ ->
                     Log.i("SCUP", "JsonArrayRequest")
                 },
