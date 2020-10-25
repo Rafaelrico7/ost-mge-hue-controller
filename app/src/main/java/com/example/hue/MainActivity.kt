@@ -64,7 +64,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         light_button.setOnClickListener{
-            Toast.makeText(this, "Light Button Clicked", Toast.LENGTH_SHORT).show()
+            val myIntent = Intent(this, LightActivity::class.java)
+            startActivity(myIntent)
+            overridePendingTransition( R.anim.from_right, R.anim.to_left );
+            val toBottom = AnimationUtils.loadAnimation(this, R.anim.to_bottom_anim)
+            val rotateClose = AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim)
+            menu_button.startAnimation(toBottom)
+            light_button.startAnimation(toBottom)
+            add_button.startAnimation(rotateClose)
         }
     }
 
