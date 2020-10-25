@@ -31,7 +31,7 @@ class ApiClient {
             Log.i("SCUP", url)
             Log.i("SCUP", jsonBody.toString())
 
-            val jsonArrayRequest = JsonArrayRequest(method, url, jsonArray.put(jsonBody.toString()),
+            val jsonArrayRequest = JsonArrayRequest(method, url, jsonArray.put(0, jsonBody),
                 { _ ->
                     Log.i("SCUP", "JsonArrayRequest")
                 },
@@ -51,6 +51,7 @@ class ApiClient {
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
                 )
             if (method == Request.Method.PUT){
+                Log.i("SCUP", jsonArrayRequest.body.toString())
                 requestQueue.add(jsonArrayRequest)
             }else{
                 requestQueue.add(jsonObjRequest)
