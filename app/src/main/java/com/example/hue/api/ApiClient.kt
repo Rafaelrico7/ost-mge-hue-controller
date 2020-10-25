@@ -3,9 +3,11 @@ package com.example.hue.api
 import android.content.Context
 import android.util.Log
 import com.android.volley.*
+import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 
 import com.android.volley.toolbox.Volley
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -28,6 +30,13 @@ class ApiClient {
             Log.i("SCUP", url)
             Log.i("SCUP", jsonBody.toString())
 
+            val jsonArrayRequest = JsonArrayRequest(method, url, JSONArray(jsonBody) ,
+                { response ->
+                    if (callback != null) {
+                        callback(response.getJSONObject(0))
+                    }
+                },
+                { error -> Log.e("SCUP", "Fehler bei Request", error) })
             val jsonObjRequest = JsonObjectRequest(method, url, jsonBody,
                 { response ->
                     if (callback != null) {
@@ -41,7 +50,11 @@ class ApiClient {
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
                 )
-            requestQueue.add(jsonObjRequest)
+            if (method == Request.Method.PUT){
+                requestQueue.add(jsonArrayRequest)
+            }else{
+                requestQueue.add(jsonObjRequest)
+            }
         } catch (e: JSONException) {
             e.printStackTrace()
         }
