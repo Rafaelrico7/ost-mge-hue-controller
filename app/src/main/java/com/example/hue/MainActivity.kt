@@ -34,10 +34,10 @@ class MainActivity : AppCompatActivity() {
                 liste = listeDef.await()
                 authUser = user.await()
                 mem.setLightStatus(1, ctx)
+                Log.i("SCUP", liste[1].toString())
+                Toast.makeText(ctx, authUser ,Toast.LENGTH_SHORT
+                ).show()
             }
-            Log.i("SCUP", liste[1].toString())
-            Toast.makeText(this, authUser ,Toast.LENGTH_SHORT
-            ).show()
         }
 
         add_button.setOnClickListener{
