@@ -4,12 +4,13 @@ import android.content.Context
 import android.util.Log
 import com.example.hue.api.*
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
 import org.json.JSONObject
 
 class Memory (ctx: Context){
     private var lightList: MutableList<Light> = mutableListOf(Light())
     private var zoneList: MutableList<Zone> = mutableListOf(Zone("default"))
-    private var authUser: String = ""
+    private var authUser: String = "7YFFIu9reI2O9yMAcfxYgE7RYZWF7N-q4ETuXlEr"
     private val file = File()
     private val api = ApiRoute()
     private var ipAdrr: String = "192.168.0.1"
@@ -35,8 +36,8 @@ class Memory (ctx: Context){
         return null
     }
 
-    fun getLights(ctx: Context): List<Light>{
-        if(lightList.isEmpty()){
+    suspend fun getLights(ctx: Context): List<Light>{
+
             api.eval(GetLights(ipAdrr, authUser, ctx) { res: JSONObject ->
                 Log.i("SCUP", res.toString())
                 var index = 1
@@ -46,11 +47,11 @@ class Memory (ctx: Context){
                     index++
                 }
             })
-        }
         return lightList
+
     }
 
-    fun getUser(ctx: Context): String{
+    suspend fun getUser(ctx: Context): String{
         Log.i("SCUP", "getUser")
         if (authUser.isEmpty() && ipAdrr.isNotEmpty()){
             Log.i("SCUP", "before eval")
@@ -75,7 +76,7 @@ class Memory (ctx: Context){
         }
     }
 
-    fun getLight(index: Int, ctx: Context): Light{
+    suspend fun getLight(index: Int, ctx: Context): Light{
         if (lightList.isEmpty()){
             getLights(ctx)
         }

@@ -2,11 +2,12 @@ package com.example.hue
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.*
 import com.example.hue.api.HttpsTrustManager
 import com.example.hue.model.Light
 import com.example.hue.model.Memory
@@ -16,19 +17,27 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private var addButtonClicked = false
+    private var authUser = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         HttpsTrustManager.allowAllSSL()
         val mem = Memory(this)
+        val ctx = this
         mem.setIpAddr("192.168.50.149")
 
         button2.setOnClickListener {
-
-            val user = mem.getUser(this)
-            Toast.makeText(this, user,Toast.LENGTH_SHORT
+            var liste : List<Light>
+            runBlocking<Unit> {
+                val user = GlobalScope.async { mem.getUser(ctx) }
+                val listeDef = GlobalScope.async { mem.getLights(ctx) }
+                liste = listeDef.await()
+                authUser = user.await()
+                mem.setLightStatus(1, ctx)
+            }
+            Log.i("SCUP", liste[1].toString())
+            Toast.makeText(this, authUser ,Toast.LENGTH_SHORT
             ).show()
-            mem.setLightStatus(1, this)
         }
 
         add_button.setOnClickListener{
