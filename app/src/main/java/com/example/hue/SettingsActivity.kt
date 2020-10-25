@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceFragmentCompat
 import com.example.hue.model.Memory
+import kotlinx.android.synthetic.main.activity_light.*
 import kotlinx.android.synthetic.main.settings_activity.*
 
 class SettingsActivity : AppCompatActivity() {
@@ -15,8 +17,12 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
+        button.setOnClickListener{
+            getBridgeIP(it)
+        }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
 
 
 
@@ -40,7 +46,7 @@ class SettingsActivity : AppCompatActivity() {
         val ip = editText.text.toString()
         val mem = Memory( this )
         mem.setIpAddr(ip)
-
+        Toast.makeText(this, "IP was successfully set!", Toast.LENGTH_SHORT).show()
 
 
     }
