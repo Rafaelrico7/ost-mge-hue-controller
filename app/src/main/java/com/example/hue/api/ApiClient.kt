@@ -26,17 +26,15 @@ class ApiClient {
             val requestQueue = Volley.newRequestQueue(ctx)
             val url = "https://$ipAddr/api$user$req"
             Log.i("SCUP", url)
-            val requestBody = jsonBody.toString()
-            Log.i("SCUP", requestBody)
+            Log.i("SCUP", jsonBody.toString())
 
-            val jsonObjRequest = JsonObjectRequest(method, url, null,
+            val jsonObjRequest = JsonObjectRequest(method, url, jsonBody,
                 { response ->
                     if (callback != null) {
                         callback(response)
                     }
                 },
                 { error -> Log.e("SCUP", "Fehler bei Request", error) })
-
             jsonObjRequest.retryPolicy =
                 DefaultRetryPolicy(
                     10000,
