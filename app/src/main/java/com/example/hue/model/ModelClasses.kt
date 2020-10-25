@@ -3,30 +3,31 @@ package com.example.hue.model
 import com.google.gson.annotations.SerializedName
 
 data class Light(
+    var index: Int = 0,
     @SerializedName("on")
-    val on: Boolean = false,
+    var on: Boolean = false,
     @SerializedName("sat")
-    val saturation: Int = 254,
+    var saturation: Int = 254,
     @SerializedName("bri")
-    val brightness: Int = 254,
+    var brightness: Int = 254,
     @SerializedName("hue")
-    val hue: Int = 10000,
+    var hue: Int = 10000,
     @SerializedName("name")
-    val name: String = "",
+    var name: String = "",
     @SerializedName("effect")
-    val effect: String = "",
+    var effect: String = "",
     @SerializedName("xy")
-    val xy: List<Double> = listOf(0.3171,0.3366),
+    var xy: List<Double> = listOf(0.3171,0.3366),
     @SerializedName("ct")
-    val ct: Int = 159,
+    var ct: Int = 159,
     @SerializedName("alert")
-    val alert: String = "none",
+    var alert: String = "none",
     @SerializedName("colormode")
-    val colorMode: String = "xy",
+    var colorMode: String = "xy",
     @SerializedName("mode")
-    val mode: String = "",
+    var mode: String = "",
     @SerializedName("reachable")
-    val reachable: Boolean = true
+    var reachable: Boolean = true
 )
 
 data class LightList(

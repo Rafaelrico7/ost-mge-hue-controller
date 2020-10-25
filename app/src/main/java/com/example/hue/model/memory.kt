@@ -43,6 +43,7 @@ class Memory (ctx: Context){
                 var index = 1
                 while (res.has("$index")){
                     val light = gson.fromJson(res.getJSONObject("$index").getJSONObject("state").toString(2), Light::class.java)
+                    light.index = index
                     light?.toString()?.let { lightList.add(light) }
                     index++
                 }
@@ -68,13 +69,17 @@ class Memory (ctx: Context){
         return authUser
     }
 
-    fun setLightStatus(index: Int, ctx: Context){
+   suspend fun setLightStatus(index: Int, ctx: Context, ){
         Log.i("SCUP", "setLightStatus")
         if(lightList.isNotEmpty() && authUser.isNotEmpty()){
             Log.i("SCUP", "Aufruf setLightStatus")
-            api.eval(SetLightStatus(ipAdrr, authUser, lightList[index], ctx, index))
+            lightList.forEach(action = {light -> light.on = !light.on
+                    api.eval(SetLightStatus(ipAdrr, authUser, light, ctx, light.index))
+            })
+
         }
     }
+
 
     suspend fun getLight(index: Int, ctx: Context): Light{
         if (lightList.isEmpty()){
