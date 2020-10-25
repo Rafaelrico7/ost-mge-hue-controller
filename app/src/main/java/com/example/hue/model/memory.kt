@@ -37,7 +37,6 @@ class Memory (ctx: Context){
     }
 
     suspend fun getLights(ctx: Context): List<Light>{
-
             api.eval(GetLights(ipAdrr, authUser, ctx) { res: JSONObject ->
                 Log.i("SCUP", res.toString())
                 var index = 1

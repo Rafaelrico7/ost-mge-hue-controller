@@ -3,7 +3,7 @@ package com.example.hue.model
 import com.google.gson.annotations.SerializedName
 
 data class Light(
-    var index: Int = 0,
+    var index: Int = 1,
     @SerializedName("on")
     var on: Boolean = false,
     @SerializedName("sat")
