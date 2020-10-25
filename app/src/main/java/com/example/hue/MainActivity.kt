@@ -22,23 +22,7 @@ class MainActivity : AppCompatActivity() {
         HttpsTrustManager.allowAllSSL()
         val mem = Memory(this)
         mem.setIpAddr("192.168.50.149")
-        val demoLight = Light(true, 254,256,10000, "Bettlampe")
-        val demoLight2 = Light(false, 200,200,100, "Lightstrip")
-        mem.addLight(demoLight)
-        mem.addLight(demoLight2)
-        mem.persistLights(this)
 
-        val viewManager = LinearLayoutManager(this)
-        val viewAdapter = LightAdapter(mem.getLights(this))
-
-        allLights.setOnClickListener {
-
-            recView.apply {
-                layoutManager = viewManager
-                adapter = viewAdapter
-
-            }
-        }
         button2.setOnClickListener {
 
             val user = mem.getUser(this)

@@ -7,6 +7,7 @@ import android.widget.EditText
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceFragmentCompat
+import com.example.hue.model.Memory
 import kotlinx.android.synthetic.main.settings_activity.*
 
 class SettingsActivity : AppCompatActivity() {
@@ -37,6 +38,9 @@ class SettingsActivity : AppCompatActivity() {
     fun getBridgeIP(view: View){
         val text = findViewById<EditText>(R.id.editText)
         val ip = editText.text.toString()
+        val mem = Memory( this )
+        mem.setIpAddr(ip)
+
 
 
     }
