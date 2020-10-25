@@ -1,5 +1,6 @@
 package com.example.hue
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -10,6 +11,7 @@ import com.example.hue.api.HttpsTrustManager
 import com.example.hue.model.Light
 import com.example.hue.model.Memory
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -50,11 +52,26 @@ class MainActivity : AppCompatActivity() {
         }
 
         menu_button.setOnClickListener{
-            Toast.makeText(this, "Menu Button Clicked", Toast.LENGTH_SHORT).show()
+            val myIntent = Intent(this, SettingsActivity::class.java)
+            startActivity(myIntent)
+            overridePendingTransition( R.anim.from_right, R.anim.to_left );
+            val toBottom = AnimationUtils.loadAnimation(this, R.anim.to_bottom_anim)
+            val rotateClose = AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim)
+            menu_button.startAnimation(toBottom)
+            light_button.startAnimation(toBottom)
+            add_button.startAnimation(rotateClose)
+
         }
 
         light_button.setOnClickListener{
-            Toast.makeText(this, "Light Button Clicked", Toast.LENGTH_SHORT).show()
+            val myIntent = Intent(this, LightActivity::class.java)
+            startActivity(myIntent)
+            overridePendingTransition( R.anim.from_right, R.anim.to_left );
+            val toBottom = AnimationUtils.loadAnimation(this, R.anim.to_bottom_anim)
+            val rotateClose = AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim)
+            menu_button.startAnimation(toBottom)
+            light_button.startAnimation(toBottom)
+            add_button.startAnimation(rotateClose)
         }
     }
 

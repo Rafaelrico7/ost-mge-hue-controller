@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.hue.MainActivity">
 
+
     <Button
         android:id="@+id/allLights"
         android:layout_width="397dp"
@@ -59,7 +60,7 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/add_button"
         app:layout_constraintEnd_toEndOf="@+id/add_button"
-        app:srcCompat="@drawable/ic_baseline_menu_24" />
+        app:srcCompat="@drawable/ic_baseline_settings_24" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/light_button"
@@ -72,5 +73,15 @@
         app:layout_constraintBottom_toTopOf="@+id/menu_button"
         app:layout_constraintEnd_toEndOf="@+id/menu_button"
         app:srcCompat="@drawable/ic_baseline_highlight_24" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="359dp"
+        android:layout_height="481dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/recView"
+        app:srcCompat="@drawable/ic_lightbulb" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
