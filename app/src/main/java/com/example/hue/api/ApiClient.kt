@@ -31,14 +31,13 @@ class ApiClient {
             Log.i("SCUP", jsonBody.toString())
 
             val jsonArrayRequest = JsonArrayRequest(method, url, JSONArray(jsonBody) ,
-                { response ->
-                    if (callback != null) {
-                        callback(response.getJSONObject(0))
-                    }
+                { _ ->
+                    Log.i("SCUP", "JsonArrayRequest")
                 },
                 { error -> Log.e("SCUP", "Fehler bei Request", error) })
             val jsonObjRequest = JsonObjectRequest(method, url, jsonBody,
                 { response ->
+                    Log.i("SCUP", "JsonObjectRequest")
                     if (callback != null) {
                         callback(response)
                     }
