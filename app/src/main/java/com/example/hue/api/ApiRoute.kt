@@ -37,11 +37,18 @@ class ApiRoute
             )
             is SetLightStatus -> apiClient.sendRequest(
                 "/lights/${route.lightIdx}/state", route.ipAdress,
-                JSONObject().put("on", route.status.on)
-                    .put("sat", route.status.saturation)
+                JSONObject().put("sat", route.status.saturation)
                     .put("bri", route.status.brightness)
                     .put("hue", route.status.hue)
                     .put("name", route.status.name),
+                route.ctx,
+                Request.Method.PUT,
+                "/${route.authUser}",
+                null
+            )
+            is TurnLightOnOff -> apiClient.sendRequest(
+                "/lights/${route.lightIdx}/state", route.ipAdress,
+                JSONObject().put("on", route.status.on),
                 route.ctx,
                 Request.Method.PUT,
                 "/${route.authUser}",

@@ -34,8 +34,8 @@ class MainActivity : AppCompatActivity() {
                 liste = listeDef.await()
                 authUser = user.await()
                 awaitAll(user, listeDef)
-                mem.setLightStatus(1, ctx)
-                Log.i("SCUP", liste[1].toString())
+                mem.setLightStatus(ctx)
+                Log.i("SCUP", liste[0].toString())
                 Toast.makeText(ctx, authUser ,Toast.LENGTH_SHORT
                 ).show()
             }

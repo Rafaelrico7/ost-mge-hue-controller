@@ -69,12 +69,12 @@ class Memory (ctx: Context){
         return authUser
     }
 
-   suspend fun setLightStatus(index: Int, ctx: Context, ){
+   suspend fun setLightStatus(ctx: Context, ){
         Log.i("SCUP", "setLightStatus")
         if(lightList.isNotEmpty() && authUser.isNotEmpty()){
             Log.i("SCUP", "Aufruf setLightStatus")
             lightList.forEach(action = {light -> light.on = !light.on
-                    api.eval(SetLightStatus(ipAdrr, authUser, light, ctx, light.index))
+                    api.eval(TurnLightOnOff(ipAdrr, authUser, light, ctx, light.index))
             })
 
         }
