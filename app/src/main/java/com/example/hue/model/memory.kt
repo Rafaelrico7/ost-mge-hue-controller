@@ -4,12 +4,11 @@ import android.content.Context
 import android.util.Log
 import com.example.hue.api.*
 import com.google.gson.Gson
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
+import kotlinx.coroutines.*
 import org.json.JSONObject
 
 class Memory (ctx: Context){
-    private var lightList: MutableList<Light> = mutableListOf(Light())
+    private var lightList = mutableListOf<Light>()
     private var zoneList: MutableList<Zone> = mutableListOf(Zone("default"))
     private var authUser: String = "7YFFIu9reI2O9yMAcfxYgE7RYZWF7N-q4ETuXlEr"
     private val file = File()
@@ -18,6 +17,7 @@ class Memory (ctx: Context){
     private var gson = Gson()
     init {
         file.loadFileContent(lightList, ctx)
+
     }
 
     fun persistLights(ctx: Context) {
@@ -38,17 +38,27 @@ class Memory (ctx: Context){
     }
 
     suspend fun getLights(ctx: Context): List<Light>{
-            api.eval(GetLights(ipAdrr, authUser, ctx) { res: JSONObject ->
-                Log.i("SCUP", res.toString())
-                var index = 1
+        withContext(Dispatchers.IO) {
+                val localList = mutableListOf<Light>()
+                api.eval(GetLights(ipAdrr, authUser, ctx) { res: JSONObject ->
+                    Log.i("SCUP", res.toString())
+                    var index = 1
                 while (res.has("$index")){
                     val light = gson.fromJson(res.getJSONObject("$index").getJSONObject("state").toString(2), Light::class.java)
                     light.index = index
-                    light?.toString()?.let { lightList.add(light) }
+                    light?.toString()?.let { localList.add(light) }
                     index++
                 }
+                    Log.i("SCUP", "Setze LightListe")
+                lightList = localList
+
             })
+            }
+        Log.i("SCUP", "gibt LightListe zurueck")
+        delay(1000)
         return lightList
+
+
 
     }
 
@@ -69,18 +79,16 @@ class Memory (ctx: Context){
         return authUser
     }
 
-   suspend fun setLightStatus(iLightList: List<Light>?, ctx: Context, ){
-       var localList: List<Light>?
-       localList = lightList
-       Log.i("SCUP", "setLightStatus")
-       if (iLightList != null) {
-               localList = iLightList
-       }
-        if(localList.isNotEmpty() && authUser.isNotEmpty()){
+    suspend fun setLightStatus(ctx: Context) {
+        Log.i("SCUP", "setLightStatus")
+        if (lightList.isNotEmpty() && authUser.isNotEmpty()) {
             Log.i("SCUP", "Aufruf setLightStatus")
-            localList.forEach(action = {light -> light.on = !light.on
+            withContext(Dispatchers.Default) {
+                lightList.forEach(action = { light ->
+                    light.on = !light.on
                     api.eval(TurnLightOnOff(ipAdrr, authUser, light, ctx, light.index))
-            })
+                })
+            }
 
         }
     }

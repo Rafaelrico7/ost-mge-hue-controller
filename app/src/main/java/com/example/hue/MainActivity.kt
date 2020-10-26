@@ -32,15 +32,12 @@ class MainActivity : AppCompatActivity() {
         }
         button2.setOnClickListener {
             var liste : List<Light>
+            val user = GlobalScope.async { mem.getUser(ctx) }
+            val listeDef = GlobalScope.async { mem.getLights(ctx) }
             runBlocking<Unit> {
-                val user = this.async { mem.getUser(ctx) }
-                val listeDef = this.async { mem.getLights(ctx) }
-                liste = listeDef.await()
-                authUser = user.await()
-                awaitAll(user, listeDef)
-                mem.setLightStatus(liste, ctx)
+                listeDef.invokeOnCompletion { launch { mem.setLightStatus(ctx)}.start()   }
                 //Log.i("SCUP", liste[0].toString())
-                Toast.makeText(ctx, authUser ,Toast.LENGTH_SHORT
+                Toast.makeText(ctx, user.await() ,Toast.LENGTH_SHORT
                 ).show()
             }
         }
