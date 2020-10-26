@@ -3,6 +3,7 @@ package com.example.hue.api
 import android.content.Context
 import android.util.Log
 import com.android.volley.*
+import com.android.volley.toolbox.HttpResponse
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 
@@ -27,13 +28,14 @@ class ApiClient {
         try {
             val requestQueue = Volley.newRequestQueue(ctx)
             val url = "https://$ipAddr/api$user$req"
-            val jsonArray = JSONArray()
+            val jsonArray =
             Log.i("SCUP", url)
             Log.i("SCUP", jsonBody.toString())
 
-            val jsonArrayRequest = JsonArrayRequest(method, url, jsonArray.put(0, jsonBody),
-                { _ ->
+            val jsonArrayRequest = MyJsonArrayRequest(method, url, jsonBody,
+                { response ->
                     Log.i("SCUP", "JsonArrayRequest")
+                    Log.i("SCUP", response.toString())
                 },
                 { error -> Log.e("SCUP", "Fehler bei Request", error) })
             val jsonObjRequest = JsonObjectRequest(method, url, jsonBody,
@@ -51,7 +53,8 @@ class ApiClient {
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
                 )
             if (method == Request.Method.PUT){
-                Log.i("SCUP", jsonArrayRequest.body.toString())
+
+                Log.i("SCUP", jsonArrayRequest.body.decodeToString())
                 requestQueue.add(jsonArrayRequest)
             }else{
                 requestQueue.add(jsonObjRequest)
