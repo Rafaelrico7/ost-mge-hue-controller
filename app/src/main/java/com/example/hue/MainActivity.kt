@@ -1,6 +1,7 @@
 package com.example.hue
 
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     private var addButtonClicked = false
     private var authUser = ""
+    lateinit var receiver: AirplaneModeChangedReceiver
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -25,7 +27,10 @@ class MainActivity : AppCompatActivity() {
         val mem = Memory(this)
         val ctx = this
         mem.setIpAddr("192.168.50.149")
-
+        receiver = AirplaneModeChangedReceiver()
+        IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED).also{
+            registerReceiver(receiver, it)
+        }
         button2.setOnClickListener {
             var liste : List<Light>
             runBlocking<Unit> {
@@ -84,7 +89,10 @@ class MainActivity : AppCompatActivity() {
             light_button.visibility = View.INVISIBLE
         }
     }
-
+    override fun onStop(){
+        super.onStop()
+        unregisterReceiver(receiver)
+    }
     private fun setVisibility(clicked: Boolean) {
         val fromBottom = AnimationUtils.loadAnimation(this, R.anim.from_bottom_anim)
         val toBottom = AnimationUtils.loadAnimation(this, R.anim.to_bottom_anim)
