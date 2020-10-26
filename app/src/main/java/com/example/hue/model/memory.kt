@@ -2,6 +2,7 @@ package com.example.hue.model
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import com.example.hue.api.*
 import com.google.gson.Gson
 import kotlinx.coroutines.*
@@ -37,7 +38,7 @@ class Memory (ctx: Context){
         return null
     }
 
-    suspend fun getLights(ctx: Context): List<Light>{
+    suspend fun getLights(ctx: Context, lightOn: Boolean){
         withContext(Dispatchers.IO) {
                 val localList = mutableListOf<Light>()
                 api.eval(GetLights(ipAdrr, authUser, ctx) { res: JSONObject ->
@@ -51,12 +52,9 @@ class Memory (ctx: Context){
                 }
                     Log.i("SCUP", "Setze LightListe")
                 lightList = localList
-
+                    GlobalScope.launch(Dispatchers.IO){setLightStatus(lightOn, ctx)}.start()
             })
             }
-        delay(5000)
-        Log.i("SCUP", "gibt LightListe zurueck")
-        return lightList
 
 
 
@@ -79,16 +77,21 @@ class Memory (ctx: Context){
         return authUser
     }
 
-    suspend fun setLightStatus(ctx: Context) {
+    suspend fun setLightStatus(lightOn: Boolean, ctx: Context) {
+        val lightStatus = if (lightOn) "eingeschaltet" else "ausgeschaltet"
         Log.i("SCUP", "setLightStatus")
         if (lightList.isNotEmpty() && authUser.isNotEmpty()) {
             Log.i("SCUP", "Aufruf setLightStatus")
             withContext(Dispatchers.Default) {
                 lightList.forEach(action = { light ->
-                    light.on = !light.on
-                    api.eval(TurnLightOnOff(ipAdrr, authUser, light, ctx, light.index))
+                    if (light.on != lightOn) {
+                        light.on = lightOn
+                        api.eval(TurnLightOnOff(ipAdrr, authUser, light, ctx, light.index))
+                    }
                 })
             }
+            Toast.makeText(ctx, "Lampen wurden $lightStatus" ,Toast.LENGTH_SHORT
+            ).show()
 
         }
     }

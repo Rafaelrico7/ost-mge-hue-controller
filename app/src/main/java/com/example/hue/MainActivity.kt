@@ -26,24 +26,18 @@ class MainActivity : AppCompatActivity() {
         val mem = Memory(this)
         val ctx = this
         mem.setIpAddr("192.168.50.149")
+
         receiver = AirplaneModeChangedReceiver()
         IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED).also{
             registerReceiver(receiver, it)
         }
-        button2.setOnClickListener {
-            var liste : List<Light>
-            val user = GlobalScope.async { mem.getUser(ctx) }
-            val listeDef = GlobalScope.async(Dispatchers.Unconfined) { mem.getLights(ctx) }
-            runBlocking<Unit> {
-                listeDef.await()
-                while(listeDef.isActive){
-                    delay(10)
-                }
-                launch { mem.setLightStatus(ctx)}.start()
-                //Log.i("SCUP", liste[0].toString())
-                Toast.makeText(ctx, user.await() ,Toast.LENGTH_SHORT
-                ).show()
-            }
+        lightOn.setOnClickListener {
+            GlobalScope.launch { mem.getUser(ctx) }.start()
+            GlobalScope.launch (Dispatchers.IO) { mem.getLights(ctx, true) }.start()
+        }
+        lightOff.setOnClickListener {
+            GlobalScope.launch { mem.getUser(ctx) }.start()
+            GlobalScope.launch(Dispatchers.IO) { mem.getLights(ctx, false) }.start()
         }
 
         add_button.setOnClickListener{
