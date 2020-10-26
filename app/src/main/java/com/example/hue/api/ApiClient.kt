@@ -8,6 +8,8 @@ import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 
 import com.android.volley.toolbox.Volley
+import com.example.hue.model.Memory
+import kotlinx.coroutines.runBlocking
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -37,7 +39,14 @@ class ApiClient {
                     Log.i("SCUP", "JsonArrayRequest")
                     Log.i("SCUP", response.toString())
                 },
-                { error -> Log.e("SCUP", "Fehler bei Request", error) })
+                { error ->
+                    val mem = Memory(ctx)
+                    runBlocking<Unit> {
+                        val lamp = mem.getLight(String(url.toByteArray()).takeLast(7).take(1).toInt()-1, ctx)
+                        Log.e("SCUP", "Fehler bei Request mit Lampe: ${lamp.name}", error)
+                    }
+
+                     })
             val jsonObjRequest = JsonObjectRequest(method, url, jsonBody,
                 { response ->
                     Log.i("SCUP", "JsonObjectRequest")

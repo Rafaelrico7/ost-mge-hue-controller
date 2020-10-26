@@ -4,7 +4,8 @@ import android.content.Context
 import android.util.Log
 import com.example.hue.api.*
 import com.google.gson.Gson
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import org.json.JSONObject
 
 class Memory (ctx: Context){
@@ -68,11 +69,16 @@ class Memory (ctx: Context){
         return authUser
     }
 
-   suspend fun setLightStatus(ctx: Context, ){
-        Log.i("SCUP", "setLightStatus")
-        if(lightList.isNotEmpty() && authUser.isNotEmpty()){
+   suspend fun setLightStatus(iLightList: List<Light>?, ctx: Context, ){
+       var localList: List<Light>?
+       localList = lightList
+       Log.i("SCUP", "setLightStatus")
+       if (iLightList != null) {
+               localList = iLightList
+       }
+        if(localList.isNotEmpty() && authUser.isNotEmpty()){
             Log.i("SCUP", "Aufruf setLightStatus")
-            lightList.forEach(action = {light -> light.on = !light.on
+            localList.forEach(action = {light -> light.on = !light.on
                     api.eval(TurnLightOnOff(ipAdrr, authUser, light, ctx, light.index))
             })
 
@@ -81,10 +87,8 @@ class Memory (ctx: Context){
 
 
     suspend fun getLight(index: Int, ctx: Context): Light{
-        if (lightList.isEmpty()){
-            getLights(ctx)
-        }
-        return lightList[index]
+        val localList = GlobalScope.async {getLights(ctx)}
+        return localList.await()[index]
     }
 
     fun setIpAddr(ipAddr: String){

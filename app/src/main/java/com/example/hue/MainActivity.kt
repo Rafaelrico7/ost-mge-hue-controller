@@ -3,7 +3,6 @@ package com.example.hue
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
@@ -39,7 +38,7 @@ class MainActivity : AppCompatActivity() {
                 liste = listeDef.await()
                 authUser = user.await()
                 awaitAll(user, listeDef)
-                mem.setLightStatus(ctx)
+                mem.setLightStatus(liste, ctx)
                 //Log.i("SCUP", liste[0].toString())
                 Toast.makeText(ctx, authUser ,Toast.LENGTH_SHORT
                 ).show()
