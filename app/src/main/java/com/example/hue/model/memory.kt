@@ -54,8 +54,8 @@ class Memory (ctx: Context){
 
             })
             }
+        delay(5000)
         Log.i("SCUP", "gibt LightListe zurueck")
-        delay(1000)
         return lightList
 
 
@@ -94,9 +94,8 @@ class Memory (ctx: Context){
     }
 
 
-    suspend fun getLight(index: Int, ctx: Context): Light{
-        val localList = GlobalScope.async {getLights(ctx)}
-        return localList.await()[index]
+    fun getLight(index: Int, ctx: Context): Light{
+        return lightList[index]
     }
 
     fun setIpAddr(ipAddr: String){

@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         button2.setOnClickListener {
             var liste : List<Light>
             val user = GlobalScope.async { mem.getUser(ctx) }
-            val listeDef = GlobalScope.async { mem.getLights(ctx) }
+            val listeDef = GlobalScope.async(Dispatchers.Unconfined) { mem.getLights(ctx) }
             runBlocking<Unit> {
                 listeDef.await()
                 while(listeDef.isActive){
