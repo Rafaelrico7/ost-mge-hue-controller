@@ -1,5 +1,6 @@
 package com.example.hue.api
 
+import android.util.Log
 import com.android.volley.NetworkResponse
 import com.android.volley.ParseError
 import com.android.volley.Response
@@ -43,8 +44,9 @@ class MyJsonArrayRequest
                 response!!.data,
                 Charset.defaultCharset()
             )
+            Log.i("SCUP", JSONArray(jsonString).toString())
             Response.success<JSONObject>(
-                JSONObject("{JSONArray(jsonString).toString()}"), HttpHeaderParser.parseCacheHeaders(response)
+                JSONObject(), HttpHeaderParser.parseCacheHeaders(response)
             )
         } catch (e: UnsupportedEncodingException) {
             Response.error<JSONObject>(ParseError(e))
