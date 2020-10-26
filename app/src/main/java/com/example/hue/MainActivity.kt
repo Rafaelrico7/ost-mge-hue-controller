@@ -35,7 +35,11 @@ class MainActivity : AppCompatActivity() {
             val user = GlobalScope.async { mem.getUser(ctx) }
             val listeDef = GlobalScope.async { mem.getLights(ctx) }
             runBlocking<Unit> {
-                listeDef.invokeOnCompletion { launch { mem.setLightStatus(ctx)}.start()   }
+                listeDef.await()
+                while(listeDef.isActive){
+                    delay(10)
+                }
+                launch { mem.setLightStatus(ctx)}.start()
                 //Log.i("SCUP", liste[0].toString())
                 Toast.makeText(ctx, user.await() ,Toast.LENGTH_SHORT
                 ).show()
