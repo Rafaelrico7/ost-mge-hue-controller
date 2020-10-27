@@ -31,11 +31,11 @@ class MainActivity : AppCompatActivity() {
         }
         lightOn.setOnClickListener {
             GlobalScope.launch { mem.getUser(ctx) }.start()
-            GlobalScope.launch (Dispatchers.IO) { mem.getLights(ctx) { _ -> GlobalScope.launch(Dispatchers.IO) { mem.setLightStatus(true, ctx) }.start()} }.start()
+            GlobalScope.launch (Dispatchers.IO) { mem.getLights(ctx) { _ -> GlobalScope.launch(Dispatchers.IO) { mem.setLightsStatus(true, ctx) }.start()} }.start()
         }
         lightOff.setOnClickListener {
             GlobalScope.launch { mem.getUser(ctx) }.start()
-            GlobalScope.launch (Dispatchers.IO) { mem.getLights(ctx) { _ -> GlobalScope.launch(Dispatchers.IO) { mem.setLightStatus(false, ctx) }.start()} }.start()
+            GlobalScope.launch (Dispatchers.IO) { mem.getLights(ctx) { _ -> GlobalScope.launch(Dispatchers.IO) { mem.setLightsStatus(false, ctx) }.start()} }.start()
         }
 
         add_button.setOnClickListener{

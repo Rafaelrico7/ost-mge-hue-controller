@@ -19,21 +19,21 @@
 
     <Button
         android:id="@+id/light_view_btn"
-        android:layout_width="60dp"
+        android:layout_width="80dp"
         android:layout_height="60dp"
         android:layout_marginEnd="16dp"
-        android:text="Button"
+        android:text="@string/set_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.85"
         app:layout_constraintStart_toEndOf="@+id/light_view_switch"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Switch
+    <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/light_view_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="LightOn"
+        android:text="@string/lighton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -12,11 +12,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hue.model.Light
+import com.example.hue.model.Memory
 import com.skydoves.colorpickerview.ColorEnvelope
 import com.skydoves.colorpickerview.ColorPickerDialog
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 import kotlinx.android.synthetic.main.light_view.*
 import kotlinx.android.synthetic.main.light_view.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlin.math.pow
 
 class LightAdapter(private val lightList: List<Light>) : RecyclerView.Adapter<LightAdapter.LightViewHolder>() {
@@ -30,12 +33,16 @@ class LightAdapter(private val lightList: List<Light>) : RecyclerView.Adapter<Li
     }
 
     override fun onBindViewHolder(holder: LightViewHolder, position: Int) {
+        var mem = Memory(holder.lightLayout.context)
         val light = lightList[position]
         holder.lightLayout.ligth_view_text.text = light.name
         if ((holder.lightLayout.light_view_switch.isChecked && !light.on)
             or (!holder.lightLayout.light_view_switch.isChecked && light.on)
         ) {
             holder.lightLayout.light_view_switch.toggle()
+        }
+        holder.lightLayout.light_view_switch.setOnClickListener {
+            GlobalScope.launch { mem.setLightsStatus(holder.lightLayout.light_view_switch.isChecked,holder.lightLayout.context)}.start()
         }
 
         holder.lightLayout.light_view_btn.setOnClickListener {
@@ -56,7 +63,8 @@ class LightAdapter(private val lightList: List<Light>) : RecyclerView.Adapter<Li
                 x /= (x + y + z)
                 y /= (x + y + z)
                     Log.i("SCUP", "x:$x ,y:$y")
-
+                    light.xy = listOf(x.toDouble(), y.toDouble())
+                    GlobalScope.launch { mem.setLightStatus(light,holder.lightLayout.context)}.start()
             })
             cPiDi.setNegativeButton(R.string.cancelButton, DialogInterface.OnClickListener() { dialogInterface, _ ->
                 dialogInterface.dismiss()

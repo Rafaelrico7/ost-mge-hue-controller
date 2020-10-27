@@ -81,8 +81,7 @@ class Memory (ctx: Context){
         return authUser
     }
 
-    suspend fun setLightStatus(lightOn: Boolean, ctx: Context) {
-        val lightStatus = if (lightOn) "eingeschaltet" else "ausgeschaltet"
+    suspend fun setLightsStatus(lightOn: Boolean, ctx: Context) {
         Log.i("SCUP", "setLightStatus")
         if (lightList.isNotEmpty() && authUser.isNotEmpty()) {
             Log.i("SCUP", "Aufruf setLightStatus")
@@ -94,9 +93,18 @@ class Memory (ctx: Context){
                     }
                 })
             }
-            Toast.makeText(ctx, "Lampen wurden $lightStatus" ,Toast.LENGTH_SHORT
-            ).show()
+        }
+    }
 
+    suspend fun setLightStatus(light: Light, ctx: Context) {
+        Log.i("SCUP", "setLightStatus")
+        if (lightList.isNotEmpty() && authUser.isNotEmpty()) {
+            Log.i("SCUP", "Aufruf setLightStatus")
+            withContext(Dispatchers.Default) {
+                    if (light.on) {
+                        api.eval(SetLightStatus(ipAdrr, authUser, light, ctx, light.index))
+                    }
+            }
         }
     }
 

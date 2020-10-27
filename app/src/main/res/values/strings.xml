@@ -27,4 +27,6 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="light_off">All Lights Off</string>
     <string name="light_on">All Lights On</string>
+    <string name="lighton">LightOn</string>
+    <string name="set_color">Set Color</string>
 </resources>
