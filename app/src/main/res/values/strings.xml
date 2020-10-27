@@ -8,6 +8,7 @@
     <string name="bridgeIPDescription">Please set the IP of your Hue Bridge below.</string>
     <string name="bridgeIPHint">eg. 192.168.1.10</string>
     <string name="submitButton">Submit</string>
+    <string name="cancelButton">Cancel</string>
     <string name="addLightText">Add a Hue Light by entering the Serial Number below.</string>
     <string name="addLightHint">Serial Number has 6 digits (eg. AB12DE)</string>
     <!-- Preference Titles -->
@@ -24,6 +25,6 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
-    <string name="light_off">Light Off</string>
-    <string name="light_on">Light On</string>
+    <string name="light_off">All Lights Off</string>
+    <string name="light_on">All Lights On</string>
 </resources>

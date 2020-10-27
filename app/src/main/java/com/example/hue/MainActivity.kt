@@ -5,11 +5,9 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.*
 import com.example.hue.api.HttpsTrustManager
-import com.example.hue.model.Light
 import com.example.hue.model.Memory
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -33,11 +31,11 @@ class MainActivity : AppCompatActivity() {
         }
         lightOn.setOnClickListener {
             GlobalScope.launch { mem.getUser(ctx) }.start()
-            GlobalScope.launch (Dispatchers.IO) { mem.getLights(ctx, true) }.start()
+            GlobalScope.launch (Dispatchers.IO) { mem.getLights(ctx) { _ -> GlobalScope.launch(Dispatchers.IO) { mem.setLightStatus(true, ctx) }.start()} }.start()
         }
         lightOff.setOnClickListener {
             GlobalScope.launch { mem.getUser(ctx) }.start()
-            GlobalScope.launch(Dispatchers.IO) { mem.getLights(ctx, false) }.start()
+            GlobalScope.launch (Dispatchers.IO) { mem.getLights(ctx) { _ -> GlobalScope.launch(Dispatchers.IO) { mem.setLightStatus(false, ctx) }.start()} }.start()
         }
 
         add_button.setOnClickListener{
@@ -50,6 +48,7 @@ class MainActivity : AppCompatActivity() {
             overridePendingTransition( R.anim.from_right, R.anim.to_left );
             val toBottom = AnimationUtils.loadAnimation(this, R.anim.to_bottom_anim)
             val rotateClose = AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim)
+            lightlist_button.startAnimation(toBottom)
             menu_button.startAnimation(toBottom)
             light_button.startAnimation(toBottom)
             add_button.startAnimation(rotateClose)
@@ -62,6 +61,19 @@ class MainActivity : AppCompatActivity() {
             overridePendingTransition( R.anim.from_right, R.anim.to_left );
             val toBottom = AnimationUtils.loadAnimation(this, R.anim.to_bottom_anim)
             val rotateClose = AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim)
+            lightlist_button.startAnimation(toBottom)
+            menu_button.startAnimation(toBottom)
+            light_button.startAnimation(toBottom)
+            add_button.startAnimation(rotateClose)
+        }
+
+        lightlist_button.setOnClickListener{
+            val myIntent = Intent(this, LightListActivity::class.java)
+            startActivity(myIntent)
+            overridePendingTransition( R.anim.from_right, R.anim.to_left );
+            val toBottom = AnimationUtils.loadAnimation(this, R.anim.to_bottom_anim)
+            val rotateClose = AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim)
+            lightlist_button.startAnimation(toBottom)
             menu_button.startAnimation(toBottom)
             light_button.startAnimation(toBottom)
             add_button.startAnimation(rotateClose)
@@ -93,10 +105,12 @@ class MainActivity : AppCompatActivity() {
         val rotateClose = AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim)
         val  rotateOpen = AnimationUtils.loadAnimation(this, R.anim.rotate_open_anim)
         if(!clicked){
+            lightlist_button.startAnimation(fromBottom)
             menu_button.startAnimation(fromBottom)
             light_button.startAnimation(fromBottom)
             add_button.startAnimation(rotateOpen)
         }else{
+            lightlist_button.startAnimation(toBottom)
             menu_button.startAnimation(toBottom)
             light_button.startAnimation(toBottom)
             add_button.startAnimation(rotateClose)

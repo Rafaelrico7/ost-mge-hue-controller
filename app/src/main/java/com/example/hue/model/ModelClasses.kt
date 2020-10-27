@@ -1,5 +1,7 @@
 package com.example.hue.model
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
 data class Light(
@@ -13,19 +15,19 @@ data class Light(
     @SerializedName("hue")
     var hue: Int = 10000,
     @SerializedName("name")
-    var name: String = "",
+    var name: String? = "Lamp",
     @SerializedName("effect")
-    var effect: String = "",
+    var effect: String? = "none",
     @SerializedName("xy")
     var xy: List<Double> = listOf(0.3171,0.3366),
     @SerializedName("ct")
     var ct: Int = 159,
     @SerializedName("alert")
-    var alert: String = "none",
+    var alert: String? = "none",
     @SerializedName("colormode")
-    var colorMode: String = "xy",
+    var colorMode: String? = "xy",
     @SerializedName("mode")
-    var mode: String = "",
+    var mode: String? = "none",
     @SerializedName("reachable")
     var reachable: Boolean = true
 )

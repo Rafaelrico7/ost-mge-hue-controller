@@ -64,6 +64,18 @@
         app:layout_constraintEnd_toEndOf="@+id/menu_button"
         app:srcCompat="@drawable/ic_baseline_highlight_24" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/lightlist_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/light_button"
+        app:layout_constraintEnd_toEndOf="@+id/light_button"
+        app:srcCompat="@drawable/ic_subject_24px" />
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="359dp"
@@ -71,7 +83,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/recView"
         app:srcCompat="@drawable/ic_lightbulb" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

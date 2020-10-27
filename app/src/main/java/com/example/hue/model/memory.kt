@@ -37,42 +37,46 @@ class Memory (ctx: Context){
         lightList.forEach{ light -> if(light.name == name){ return light} }
         return null
     }
-
-    suspend fun getLights(ctx: Context, lightOn: Boolean){
+    fun getLocalLights() : List<Light>{
+        return lightList
+    }
+    suspend fun getLights(ctx: Context, callback: (res: List<Light>) -> Unit) {
         withContext(Dispatchers.IO) {
-                val localList = mutableListOf<Light>()
-                api.eval(GetLights(ipAdrr, authUser, ctx) { res: JSONObject ->
-                    Log.i("SCUP", res.toString())
-                    var index = 1
-                while (res.has("$index")){
-                    val light = gson.fromJson(res.getJSONObject("$index").getJSONObject("state").toString(2), Light::class.java)
+            val localList = mutableListOf<Light>()
+            api.eval(GetLights(ipAdrr, authUser, ctx) { res: JSONObject ->
+                Log.i("SCUP", res.toString())
+                var index = 1
+                while (res.has("$index")) {
+                    val light = gson.fromJson(
+                        res.getJSONObject("$index").getJSONObject("state").toString(2),
+                        Light::class.java
+                    )
                     light.index = index
                     light?.toString()?.let { localList.add(light) }
                     index++
                 }
-                    Log.i("SCUP", "Setze LightListe")
+                Log.i("SCUP", "Setze LightListe")
                 lightList = localList
-                    GlobalScope.launch(Dispatchers.IO){setLightStatus(lightOn, ctx)}.start()
+                callback(lightList)
             })
-            }
-
-
-
+        }
     }
 
-    suspend fun getUser(ctx: Context): String{
+    suspend fun getUser(ctx: Context): String {
         Log.i("SCUP", "getUser")
-        if (authUser.isEmpty() && ipAdrr.isNotEmpty()){
+        if (authUser.isEmpty() && ipAdrr.isNotEmpty()) {
             Log.i("SCUP", "before eval")
-            api.eval(GetUser(ipAdrr,"Test", ctx) { res: JSONObject ->
-                Log.i("SCUP", res.toString())
-                if(res.has("success")) {
-                    authUser = res.getJSONObject("success").getString("username")
-                    Log.i("SCUP", "AuthUser gesetzt {$authUser}")
-                }else {
-                    Log.e("SCUP", res.toString())
-                }
-            })
+            withContext(Dispatchers.IO) {
+                api.eval(GetUser(ipAdrr, "Test", ctx) { res: JSONObject ->
+                    Log.i("SCUP", res.toString())
+                    if (res.has("success")) {
+                        authUser = res.getJSONObject("success").getString("username")
+                        Log.i("SCUP", "AuthUser gesetzt {$authUser}")
+                    } else {
+                        Log.e("SCUP", res.toString())
+                    }
+                })
+            }
         }
         return authUser
     }
