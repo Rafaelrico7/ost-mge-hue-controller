@@ -16,7 +16,6 @@ class MainActivity : AppCompatActivity() {
 
     private var addButtonClicked = false
     private var authUser = ""
-    lateinit var receiver: AirplaneModeChangedReceiver
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -25,10 +24,6 @@ class MainActivity : AppCompatActivity() {
         val ctx = this
         mem.setIpAddr("192.168.50.149")
 
-        receiver = AirplaneModeChangedReceiver()
-        IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED).also{
-            registerReceiver(receiver, it)
-        }
         lightOn.setOnClickListener {
             GlobalScope.launch { mem.getUser(ctx) }.start()
             GlobalScope.launch (Dispatchers.IO) { mem.getLights(ctx) { _ -> GlobalScope.launch(Dispatchers.IO) { mem.setLightStatus(true, ctx) }.start()} }.start()
@@ -94,10 +89,6 @@ class MainActivity : AppCompatActivity() {
             menu_button.visibility = View.INVISIBLE
             light_button.visibility = View.INVISIBLE
         }
-    }
-    override fun onStop(){
-        super.onStop()
-        unregisterReceiver(receiver)
     }
     private fun setVisibility(clicked: Boolean) {
         val fromBottom = AnimationUtils.loadAnimation(this, R.anim.from_bottom_anim)
