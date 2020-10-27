@@ -42,7 +42,8 @@ class LightAdapter(private val lightList: List<Light>) : RecyclerView.Adapter<Li
             holder.lightLayout.light_view_switch.toggle()
         }
         holder.lightLayout.light_view_switch.setOnClickListener {
-            GlobalScope.launch { mem.setLightsStatus(holder.lightLayout.light_view_switch.isChecked,holder.lightLayout.context)}.start()
+            light.on = holder.lightLayout.light_view_switch.isChecked
+            GlobalScope.launch { mem.toggleLight(light,holder.lightLayout.context)}.start()
         }
 
         holder.lightLayout.light_view_btn.setOnClickListener {

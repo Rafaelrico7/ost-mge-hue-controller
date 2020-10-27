@@ -129,7 +129,21 @@ class Memory private constructor (ctx: Context){
             withContext(Dispatchers.Default) {
                     if (light.on) {
                         api.eval(SetLightStatus(ipAdrr, authUser, light, ctx, light.index))
+                    }else{
+                        light.on = true
+                        api.eval(TurnLightOnOff(ipAdrr, authUser, light, ctx, light.index))
+                        api.eval(SetLightStatus(ipAdrr, authUser, light, ctx, light.index))
                     }
+            }
+        }
+    }
+
+    suspend fun toggleLight(light: Light, ctx: Context) {
+        Log.i("SCUP", "toggleLight")
+        if (lightList.isNotEmpty() && authUser.isNotEmpty()) {
+            Log.i("SCUP", "Aufruf toggleLight")
+            withContext(Dispatchers.Default) {
+                api.eval(TurnLightOnOff(ipAdrr, authUser, light, ctx, light.index))
             }
         }
     }
