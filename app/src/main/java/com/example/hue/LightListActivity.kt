@@ -15,7 +15,7 @@ class LightListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lightlist)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        val mem = Memory(this)
+        val mem = Memory.getInstance(this)
         val ctx = this
         /*mem.addLight(Light(0,false, 254,256,10000, "Bettlampe"))
         mem.addLight(Light(0,true, 254,256,10000, "Bettlampe 2"))

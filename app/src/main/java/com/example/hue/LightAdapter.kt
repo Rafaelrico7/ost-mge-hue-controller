@@ -33,7 +33,7 @@ class LightAdapter(private val lightList: List<Light>) : RecyclerView.Adapter<Li
     }
 
     override fun onBindViewHolder(holder: LightViewHolder, position: Int) {
-        var mem = Memory(holder.lightLayout.context)
+        val mem = Memory.getInstance(holder.lightLayout.context)
         val light = lightList[position]
         holder.lightLayout.ligth_view_text.text = light.name
         if ((holder.lightLayout.light_view_switch.isChecked && !light.on)
@@ -49,7 +49,7 @@ class LightAdapter(private val lightList: List<Light>) : RecyclerView.Adapter<Li
             val cPiDi = ColorPickerDialog.Builder(holder.lightLayout.context)
             cPiDi.setTitle("Pick a Colour")
             cPiDi.setPositiveButton(R.string.submitButton,
-                ColorEnvelopeListener { envelope, fromUser ->
+                ColorEnvelopeListener { envelope, _ ->
                 val colors = envelope.argb
                 var red = (colors[0] / 255).toFloat()
                 red = if (red > 0.04045f) (((red + 0.055f) / (1.0f + 0.055f)).pow(2.4f)) else red / 12.92f

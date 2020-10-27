@@ -7,8 +7,31 @@ import com.example.hue.api.*
 import com.google.gson.Gson
 import kotlinx.coroutines.*
 import org.json.JSONObject
+open class SingletonHolder<out T: Any, in A>(creator: (A) -> T) {
+    private var creator: ((A) -> T)? = creator
+    @Volatile private var instance: T? = null
 
-class Memory (ctx: Context){
+    fun getInstance(arg: A): T {
+        val checkInstance = instance
+        if (checkInstance != null) {
+            return checkInstance
+        }
+
+        return synchronized(this) {
+            val checkInstanceAgain = instance
+            if (checkInstanceAgain != null) {
+                checkInstanceAgain
+            } else {
+                val created = creator!!(arg)
+                instance = created
+                creator = null
+                created
+            }
+        }
+    }
+}
+
+class Memory private constructor (ctx: Context){
     private var lightList = mutableListOf<Light>()
     private var zoneList: MutableList<Zone> = mutableListOf(Zone("default"))
     private var authUser: String = "7YFFIu9reI2O9yMAcfxYgE7RYZWF7N-q4ETuXlEr"
@@ -16,10 +39,13 @@ class Memory (ctx: Context){
     private val api = ApiRoute()
     private var ipAdrr: String = "192.168.50.149"
     private var gson = Gson()
+    companion object : SingletonHolder<Memory, Context>(::Memory)
     init {
         file.loadFileContent(lightList, ctx)
 
     }
+
+
 
     fun persistLights(ctx: Context) {
         file.persistToFile(lightList, ctx)

@@ -40,7 +40,7 @@ class ApiClient {
                     Log.i("SCUP", response.toString())
                 },
                 { error ->
-                    val mem = Memory(ctx)
+                    val mem = Memory.getInstance(ctx)
                     runBlocking<Unit> {
                         val lamp = mem.getLight(String(url.toByteArray()).takeLast(7).take(1).toInt()-1, ctx)
                         Log.e("SCUP", "Fehler bei Request mit Lampe: ${lamp.name}", error)

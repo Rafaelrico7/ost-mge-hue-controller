@@ -44,7 +44,7 @@ class SettingsActivity : AppCompatActivity() {
     fun getBridgeIP(view: View){
         val text = findViewById<EditText>(R.id.editText)
         val ip = editText.text.toString()
-        val mem = Memory( this )
+        val mem = Memory.getInstance(this)
         mem.setIpAddr(ip)
         Toast.makeText(this, "IP was successfully set!", Toast.LENGTH_SHORT).show()
 

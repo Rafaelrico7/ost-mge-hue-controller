@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         HttpsTrustManager.allowAllSSL()
-        val mem = Memory(this)
+        val mem = Memory.getInstance(this)
         val ctx = this
         mem.setIpAddr("192.168.50.149")
 
