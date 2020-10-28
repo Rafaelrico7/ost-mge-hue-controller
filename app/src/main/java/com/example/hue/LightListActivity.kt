@@ -17,10 +17,10 @@ class LightListActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val mem = Memory.getInstance(this)
         val ctx = this
-        /*mem.addLight(Light(0,false, 254,256,10000, "Bettlampe"))
-        mem.addLight(Light(0,true, 254,256,10000, "Bettlampe 2"))
-        mem.addLight(Light(0,false, 254,236,10000, "Lichtstreifen"))*/
-        var viewAdapter : LightAdapter
+        /*mem.addLight(Light(0, false, 254, 256, 10000, "Bettlampe"))
+        mem.addLight(Light(0, true, 254, 256, 10000, "Bettlampe 2"))
+        mem.addLight(Light(0, false, 254, 236, 10000, "Lichtstreifen"))*/
+        var viewAdapter: LightAdapter
         val viewManager = LinearLayoutManager(this)
         /*viewAdapter = LightAdapter(mem.getLocalLights())
         recViewLights.apply {

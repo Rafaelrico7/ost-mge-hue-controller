@@ -40,6 +40,7 @@ class ApiRoute
                 JSONObject().put("sat", route.status.saturation)
                     .put("bri", route.status.brightness)
                     .put("hue", route.status.hue)
+                    .put("xy", route.status.xy)
                     .put("name", route.status.name),
                 route.ctx,
                 Request.Method.PUT,

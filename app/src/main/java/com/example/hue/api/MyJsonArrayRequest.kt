@@ -45,13 +45,13 @@ class MyJsonArrayRequest
                 Charset.defaultCharset()
             )
             Log.i("SCUP", JSONArray(jsonString).toString())
-            Response.success<JSONObject>(
+            Response.success(
                 JSONObject(), HttpHeaderParser.parseCacheHeaders(response)
             )
         } catch (e: UnsupportedEncodingException) {
-            Response.error<JSONObject>(ParseError(e))
+            Response.error(ParseError(e))
         } catch (je: JSONException) {
-            Response.error<JSONObject>(ParseError(je))
+            Response.error(ParseError(je))
         }
     }
 }

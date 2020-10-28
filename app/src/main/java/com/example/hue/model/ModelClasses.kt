@@ -1,7 +1,5 @@
 package com.example.hue.model
 
-import android.os.Parcel
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
 data class Light(
@@ -32,14 +30,10 @@ data class Light(
     var reachable: Boolean = true
 )
 
-data class LightList(
-    val list: MutableList<Light>
+data class UserSettings(
+    @SerializedName("authUser")
+    var authUser : String = "",
+    @SerializedName("IPAdress")
+    var IPAdress : String = ""
 )
 
-data class Zone (
-    @SerializedName("Name")
-    val Name: String){
-    @SerializedName("lights")
-    val lights: MutableList<Light>? = null
-    val isRoom: Boolean = false
-}

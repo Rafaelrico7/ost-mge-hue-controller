@@ -5,11 +5,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
-
 import androidx.appcompat.app.AppCompatActivity
-import androidx.preference.PreferenceFragmentCompat
 import com.example.hue.model.Memory
-import kotlinx.android.synthetic.main.activity_light.*
 import kotlinx.android.synthetic.main.settings_activity.*
 
 class SettingsActivity : AppCompatActivity() {
@@ -45,15 +42,10 @@ class SettingsActivity : AppCompatActivity() {
         val text = findViewById<EditText>(R.id.editText)
         val ip = editText.text.toString()
         val mem = Memory.getInstance(this)
-        mem.setIpAddr(ip)
+        mem.setIpAddr(ip, this)
         Toast.makeText(this, "IP was successfully set!", Toast.LENGTH_SHORT).show()
 
 
     }
 
-    class SettingsFragment : PreferenceFragmentCompat() {
-        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-            setPreferencesFromResource(R.xml.root_preferences, rootKey)
-        }
-    }
 }

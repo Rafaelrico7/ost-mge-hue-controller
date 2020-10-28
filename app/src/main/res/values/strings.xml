@@ -1,9 +1,5 @@
 <resources>
     <string name="app_name">Hue Controller</string>
-    <string name="switchThemeText">Switch Theme</string>
-    <string name="switchToDarkTheme">Switch to Dark Theme</string>
-    <string name="switchToLightTheme">Switch to Light Theme</string>
-    <string name="allLightsButton">All Lights</string>
     <string name="title_activity_settings">Settings</string>
     <string name="bridgeIPDescription">Please set the IP of your Hue Bridge below.</string>
     <string name="bridgeIPHint">eg. 192.168.1.10</string>

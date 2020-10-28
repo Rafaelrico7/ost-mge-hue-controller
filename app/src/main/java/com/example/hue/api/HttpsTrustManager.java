@@ -1,5 +1,7 @@
 package com.example.hue.api;
 
+import android.annotation.SuppressLint;
+
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -17,6 +19,7 @@ public class HttpsTrustManager implements X509TrustManager {
     private static TrustManager[] trustManagers;
     private static final X509Certificate[] _AcceptedIssuers = new X509Certificate[]{};
 
+    @SuppressLint("TrustAllX509TrustManager")
     @Override
     public void checkClientTrusted(
             java.security.cert.X509Certificate[] x509Certificates, String s)
@@ -24,6 +27,7 @@ public class HttpsTrustManager implements X509TrustManager {
 
     }
 
+    @SuppressLint("TrustAllX509TrustManager")
     @Override
     public void checkServerTrusted(
             java.security.cert.X509Certificate[] x509Certificates, String s)
@@ -47,6 +51,7 @@ public class HttpsTrustManager implements X509TrustManager {
     public static void allowAllSSL() {
         HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
 
+            @SuppressLint("BadHostnameVerifier")
             @Override
             public boolean verify(String arg0, SSLSession arg1) {
                 return true;

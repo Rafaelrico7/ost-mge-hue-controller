@@ -36,7 +36,6 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -46,7 +45,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
     <ImageView
-        android:id="@+id/imageView2"
         android:layout_width="368dp"
         android:layout_height="479dp"
         app:layout_constraintBottom_toBottomOf="parent"

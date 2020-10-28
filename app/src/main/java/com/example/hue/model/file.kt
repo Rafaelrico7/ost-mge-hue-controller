@@ -9,25 +9,22 @@ import java.io.File
 class File{
 
     private val gson = Gson()
-    init {
-
-    }
-    fun loadFileContent (lightList: MutableList<Light>, ctx: Context){
-        val lightListType = object : TypeToken<MutableList<Light>>() {}.type
+    fun loadFileContent (ctx: Context) : UserSettings{
+        val userSettingsType = object : TypeToken<UserSettings>() {}.type
         val file = File( "hueFileStorage")
         if (file.exists()) {
-            val lights: MutableList<Light> =
-                gson.fromJson(ctx.openFileInput("hueFileStorage").bufferedReader(), lightListType)
-            if (lights.size > 0) {
-                lightList.addAll(0, lights)
+            val settings: UserSettings =
+                gson.fromJson(ctx.openFileInput("hueFileStorage").bufferedReader(), userSettingsType)
+            if (settings.authUser.isNotEmpty()) {
+                return settings
             }
         }
-
+        return UserSettings()
     }
 
-    fun persistToFile (lightList: MutableList<Light>, ctx: Context){
-        ctx.openFileOutput("hueFileStorage", Context.MODE_PRIVATE).bufferedWriter().write(gson.toJson(lightList))
+    fun persistToFile (userSettings: UserSettings, ctx: Context){
+        ctx.openFileOutput("hueFileStorage", Context.MODE_PRIVATE).bufferedWriter().write(gson.toJson(userSettings))
         Log.i("SCUP", "Persist Data")
-        Log.i("SCUP", gson.toJson(lightList))
+        Log.i("SCUP", gson.toJson(userSettings))
     }
 }
