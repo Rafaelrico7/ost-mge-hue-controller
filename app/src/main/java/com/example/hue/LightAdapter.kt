@@ -62,7 +62,7 @@ class LightAdapter(private val lightList: List<Light>) :
                     x /= (x + y + z)
                     y /= (x + y + z)
                     Log.i("SCUP", "x:$x ,y:$y")
-                    val df = DecimalFormat("#.####")
+                    val df = DecimalFormat("#.###")
                     df.roundingMode = RoundingMode.CEILING
                     light.xy = listOf(df.format(x).toDouble(), df.format(y).toDouble())
                     GlobalScope.launch { mem.setLightStatus(light, holder.lightLayout.context) }
