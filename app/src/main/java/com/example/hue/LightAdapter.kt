@@ -47,13 +47,13 @@ class LightAdapter(private val lightList: List<Light>) :
             cPiDi.setPositiveButton(R.string.submitButton,
                 ColorEnvelopeListener { envelope, _ ->
                     val colors = envelope.argb
-                    var red = (colors[0] / 255).toFloat()
+                    var red = (colors[1] / 255).toFloat()
                     red =
                         if (red > 0.04045f) (((red + 0.055f) / (1.0f + 0.055f)).pow(2.4f)) else red / 12.92f
-                    var green = (colors[1] / 255).toFloat()
+                    var green = (colors[2] / 255).toFloat()
                     green =
                         if (green > 0.04045f) (((green + 0.055f) / (1.0f + 0.055f)).pow(2.4f)) else green / 12.92f
-                    var blue = (colors[2] / 255).toFloat()
+                    var blue = (colors[3] / 255).toFloat()
                     blue =
                         if (blue > 0.04045f) (((blue + 0.055f) / (1.0f + 0.055f)).pow(2.4f)) else blue / 12.92f
                     var x = red * 0.649926f + green * 0.103455f + blue * 0.197109f
@@ -65,6 +65,7 @@ class LightAdapter(private val lightList: List<Light>) :
                     val df = DecimalFormat("#.###")
                     df.roundingMode = RoundingMode.CEILING
                     light.xy = listOf(df.format(x).toDouble(), df.format(y).toDouble())
+                    light.saturation = colors[0]
                     GlobalScope.launch { mem.setLightStatus(light, holder.lightLayout.context) }
                         .start()
                 })
